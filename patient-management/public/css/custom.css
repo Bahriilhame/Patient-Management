@@ -1,0 +1,26 @@
+/* Custom Sidebar Background Color */
+.main-sidebar {
+    background-color: #02A499 !important;
+}
+
+/* Optionally, you can also customize the sidebar brand link */
+.brand-link {
+    background-color: #02A499 !important;
+}
+
+/* Optionally, customize the sidebar link color */
+.nav-sidebar .nav-link {
+    color: #ffffff !important; /* White text for better contrast */
+}
+
+/* Optionally, customize the sidebar link hover color */
+.nav-sidebar .nav-link:hover {
+    background-color: #019d8c !important; /* Slightly darker shade on hover */
+}
+
+/* Custom Logo Image Width */
+.custom-logo {
+    width: 150px;
+    height: auto;
+    margin-left: 20px;
+}
