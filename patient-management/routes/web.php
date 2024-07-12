@@ -5,6 +5,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EChannelingController;
 
 /*
@@ -25,3 +26,4 @@ Route::resource('payments', PaymentController::class);
 Route::resource('echanneling', EChannelingController::class);
 
 
+Route::get('appointments', [AppointmentController::class, 'index'])->name('appointments.index');

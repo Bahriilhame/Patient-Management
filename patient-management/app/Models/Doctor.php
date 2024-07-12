@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Department;
+use App\Models\Appointment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,9 +21,13 @@ class Doctor extends Model
         'profile_image'
     ];
 
-    // Define the relationship with department
     public function department()
     {
-        return $this->belongsTo(Department::class,'department_id');
+        return $this->belongsTo(Department::class);
+    }
+    
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
     }
 }

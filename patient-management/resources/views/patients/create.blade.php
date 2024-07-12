@@ -36,7 +36,6 @@
                 <option value="">Select Gender</option>
                 <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
                 <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
             </select>
             @error('gender')
                 <div class="text-danger">{{ $message }}</div>

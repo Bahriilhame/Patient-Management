@@ -26,8 +26,10 @@
             <tr>
                 {{-- <td>{{ $patient->id }}</td> --}}
                 <td>
-                    <img src={{  $patient->profile_image}} alt="Profile Image" style="width: 20px; height: auto;">
+                    {{-- <img src={{  $patient->profile_image}} alt="Profile Image" style="width: 20px; height: auto;"> --}}
                     {{-- <a href="{{ $patient->profile_image }}"></a> --}}
+                                        <img src="{{ $patient->profile_image ? asset('storage/' . $patient->profile_image) : asset('img/default-profile.png') }}" alt="Profile Image" style="width: 20px; height: auto;">
+
                 </td>
                 <td>{{ $patient->first_name }}</td>
                 <td>{{ $patient->last_name }}</td>

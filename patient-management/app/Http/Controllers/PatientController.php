@@ -21,16 +21,34 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
-            'gender' => 'required',
-            'contact_number' => 'required',
-            'email' => 'required|email|unique:patients',
-            'address' => 'required',
+            'gender' => 'required|in:Male,Female,Other',
+            'contact_number' => 'required|string|max:20',
+            'email' => 'required|email|unique:patients,email',
+            'address' => 'required|string',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Patient::create($request->all());
+        // Handle the image upload
+        $profileImage = null;
+        if ($request->hasFile('profile_image')) {
+            // Store the new image
+            $profileImage = $request->file('profile_image')->store('profile_images', 'public');
+        }
+
+        // Create the patient record
+        Patient::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'contact_number' => $request->contact_number,
+            'email' => $request->email,
+            'address' => $request->address,
+            'profile_image' => $profileImage,
+        ]);
 
         return redirect()->route('patients.index')->with('success', 'Patient created successfully.');
     }
@@ -48,16 +66,39 @@ class PatientController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
-            'gender' => 'required',
-            'contact_number' => 'required',
+            'gender' => 'required|in:Male,Female,Other',
+            'contact_number' => 'required|string|max:20',
             'email' => 'required|email|unique:patients,email,' . $patient->id,
-            'address' => 'required',
+            'address' => 'required|string',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $patient->update($request->all());
+        // Handle the image upload
+        $profileImage = $patient->profile_image;
+        if ($request->hasFile('profile_image')) {
+            // Delete the old image if exists
+            if ($profileImage && Storage::exists('public/' . $profileImage)) {
+                Storage::delete('public/' . $profileImage);
+            }
+
+            // Store the new image
+            $profileImage = $request->file('profile_image')->store('profile_images', 'public');
+        }
+
+        // Update the patient record
+        $patient->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'contact_number' => $request->contact_number,
+            'email' => $request->email,
+            'address' => $request->address,
+            'profile_image' => $profileImage,
+        ]);
 
         return redirect()->route('patients.index')->with('success', 'Patient updated successfully.');
     }
