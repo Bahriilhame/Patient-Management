@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
-class PatientsTableSeeder extends Seeder
+class DoctorsTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run()
     {
         $faker = Faker::create();
@@ -33,16 +34,20 @@ class PatientsTableSeeder extends Seeder
 
             $filename = $imageUrl;
 
-            DB::table('patients')->insert([
+        // Assuming departments already exist
+        $departmentIds = DB::table('departments')->pluck('id');
+
+        foreach (range(1, 10) as $index) {
+            DB::table('doctors')->insert([
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'dob' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                'gender' => $faker->randomElement(['Male', 'Female', 'Other']),
                 'contact_number' => $faker->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
                 'address' => $faker->address,
+                'department_id' => $faker->randomElement($departmentIds),
                 'profile_image' => $filename,
             ]);
         }
+    }
     }
 }
